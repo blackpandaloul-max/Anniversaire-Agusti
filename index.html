@@ -71,27 +71,30 @@
 <script>
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdEQWcuSQKETslTpCT-z6CWFbOJei7wGF8dvvXqz5kzzwYj7qOxKf3SvWoUjOdqMtz/exec";
 
-async function loadMessages(){
+async function loadMessages() {
   try {
-    const res = await fetch(SCRIPT_URL);
-    const data = await res.json();
+    const response = await fetch(SCRIPT_URL);
+    const data = await response.json();
 
-    if(!data.length){
+    if (!data || data.length === 0) {
       document.getElementById("messages").innerText = "Aucun message pour le moment 🥺";
       return;
     }
 
     let html = "";
-    // Affiche du plus récent au plus ancien
     data.reverse().forEach(msg => {
-      html += `<div class="message">${msg.message}${msg.name ? `<div style="margin-top:6px;font-size:14px;color:#ffccd3">— ${msg.name}</div>` : ''}</div>`;
+      html += "<div class='message'>" + msg.message;
+      if (msg.name && msg.name.trim() !== "") {
+        html += "<div style='margin-top:6px;font-size:14px;color:#ffccd3'>— " + msg.name + "</div>";
+      }
+      html += "</div>";
     });
 
     document.getElementById("messages").innerHTML = html;
 
-  } catch(err){
+  } catch (error) {
+    console.error(error);
     document.getElementById("messages").innerText = "Impossible de charger les messages pour le moment.";
-    console.error(err);
   }
 }
 
@@ -99,20 +102,6 @@ async function loadMessages(){
 loadMessages();
 setInterval(loadMessages, 10000);
 </script>
-            .message {
-    background: #1c1c1c;
-    border: 2px solid #dc143c;
-    border-radius: 10px;
-    margin-bottom: 12px;
-    padding: 15px;
-    font-size: 18px;
-    box-shadow: 0 0 10px #ff2a2a40;
-    animation: fadeIn 0.5s ease-in-out;
-}
-@keyframes fadeIn {
-    from {opacity: 0;}
-    to {opacity: 1;}
-}
     /* hearts */
     .heart {
       position: fixed;
