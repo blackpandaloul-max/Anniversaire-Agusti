@@ -65,7 +65,7 @@
     }
 
     /* messages */
- <h2>💌 Messages reçus :</h2>
+<h2>💌 Messages reçus :</h2>
 <div id="messages">Chargement des messages…</div>
 
 <script>
@@ -75,25 +75,44 @@ async function loadMessages(){
   try {
     const res = await fetch(SCRIPT_URL);
     const data = await res.json();
+
     if(!data.length){
       document.getElementById("messages").innerText = "Aucun message pour le moment 🥺";
       return;
     }
+
     let html = "";
     // Affiche du plus récent au plus ancien
     data.reverse().forEach(msg => {
-      html += `<div class="message">${msg.message}${msg.name? `<div style="margin-top:6px;font-size:14px;color:#ffccd3">— ${msg.name}</div>`:''}</div>`;
+      html += `<div class="message">${msg.message}${msg.name ? `<div style="margin-top:6px;font-size:14px;color:#ffccd3">— ${msg.name}</div>` : ''}</div>`;
     });
+
     document.getElementById("messages").innerHTML = html;
+
   } catch(err){
     document.getElementById("messages").innerText = "Impossible de charger les messages pour le moment.";
     console.error(err);
   }
 }
 
+// Charger les messages immédiatement et toutes les 10 secondes
 loadMessages();
-setInterval(loadMessages, 10000); // recharge toutes les 10 secondes
+setInterval(loadMessages, 10000);
 </script>
+            .message {
+    background: #1c1c1c;
+    border: 2px solid #dc143c;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 15px;
+    font-size: 18px;
+    box-shadow: 0 0 10px #ff2a2a40;
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
     /* hearts */
     .heart {
       position: fixed;
