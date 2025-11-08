@@ -66,42 +66,12 @@
 
     /* messages */
 <h2>💌 Messages reçus :</h2>
-<div id="messages">Chargement des messages…</div>
-
-<script>
-const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzdEQWcuSQKETslTpCT-z6CWFbOJei7wGF8dvvXqz5kzzwYj7qOxKf3SvWoUjOdqMtz/exec";
-
-async function loadMessages() {
-  try {
-    const response = await fetch(SCRIPT_URL);
-    const data = await response.json();
-
-    if (!data || data.length === 0) {
-      document.getElementById("messages").innerText = "Aucun message pour le moment 🥺";
-      return;
-    }
-
-    let html = "";
-    data.reverse().forEach(msg => {
-      html += "<div class='message'>" + msg.message;
-      if (msg.name && msg.name.trim() !== "") {
-        html += "<div style='margin-top:6px;font-size:14px;color:#ffccd3'>— " + msg.name + "</div>";
-      }
-      html += "</div>";
-    });
-
-    document.getElementById("messages").innerHTML = html;
-
-  } catch (error) {
-    console.error(error);
-    document.getElementById("messages").innerText = "Impossible de charger les messages pour le moment.";
-  }
-}
-
-// Charger les messages immédiatement et toutes les 10 secondes
-loadMessages();
-setInterval(loadMessages, 10000);
-</script>
+<iframe 
+  src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHRXor6OLBeikq2SSUHAVLcfeRjI9iKFF-qb4q3BK8df-5-a_S_EAJzhUVjrOTz1LynUi_JjcbynL9/pubhtml?widget=true&headers=false" 
+  width="100%" 
+  height="400" 
+  frameborder="0">
+</iframe>
     /* hearts */
     .heart {
       position: fixed;
