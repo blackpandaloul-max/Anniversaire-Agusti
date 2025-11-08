@@ -1,76 +1,203 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Joyeux Anniversaire ❤️</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Joyeux 17ème anniversaire ❤️</title>
+
+  <!-- Styles : Thème rouge / noir, moderne et responsive -->
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      text-align: center;
-      background: linear-gradient(to bottom right, #ffe0f0, #ffcce0);
-      color: #333;
-      padding: 20px;
+    :root{
+      --bg:#0b0b0b;
+      --card:#111;
+      --accent:#dc143c; /* rouge cerise */
+      --accent-dark:#a20e2b;
+      --muted:#f2f2f2;
+      --glass: rgba(255,255,255,0.03);
+      --max-width:980px;
     }
-    h1 {
-      font-size: 2.5rem;
-      color: #d63384;
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Helvetica Neue", Arial;
+      background: linear-gradient(180deg, #050505 0%, #0b0b0b 100%);
+      color:var(--muted);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      line-height:1.4;
+      padding:32px 16px;
+      display:flex;
+      justify-content:center;
     }
-    .message {
-      background: white;
-      padding: 15px;
-      margin: 10px auto;
-      border-radius: 12px;
-      width: 80%;
-      max-width: 500px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+
+    .container{
+      width:100%;
+      max-width:var(--max-width);
     }
-    textarea {
-      width: 80%;
-      max-width: 400px;
-      height: 80px;
-      border-radius: 8px;
-      padding: 10px;
-      margin: 10px 0;
+
+    header{
+      text-align:center;
+      margin-bottom:22px;
     }
-    button {
-      background: #d63384;
-      color: white;
-      border: none;
-      padding: 10px 20px;
-      border-radius: 8px;
-      cursor: pointer;
+    .badge{
+      display:inline-block;
+      background: linear-gradient(90deg,var(--accent),var(--accent-dark));
+      color:white;
+      padding:8px 14px;
+      border-radius:999px;
+      font-weight:700;
+      box-shadow: 0 6px 20px rgba(220,20,60,0.18);
+      margin-bottom:12px;
     }
-    button:hover {
-      background: #b82a6f;
+    h1{
+      margin:6px 0 0 0;
+      font-size: clamp(20px, 4vw, 36px);
+      letter-spacing: -0.02em;
+    }
+    p.lead{
+      color:#d7d7d7;
+      margin:8px 0 20px 0;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 420px;
+      gap:24px;
+      align-items:start;
+    }
+
+    /* Card */
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border:1px solid rgba(255,255,255,0.04);
+      border-radius:14px;
+      padding:18px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    }/* Left: form + messages display */
+    .form-wrapper{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+    }
+
+    .form-title{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .heart{
+      width:44px;
+      height:44px;
+      background:linear-gradient(90deg,var(--accent),var(--accent-dark));
+      border-radius:10px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      font-size:20px;
+      box-shadow:0 8px 30px rgba(220,20,60,0.18);
+    }
+
+    /* iframe container responsive */
+    .iframe-box{
+      width:100%;
+      border-radius:10px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,0.03);
+      height:520px;
+      background:var(--card);
+    }
+
+    /* Right column: instructions / link */
+    .sidebar{
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+
+    .muted{
+      color:#bbb;
+      font-size:14px;
+    }
+
+    a.btn {
+      display:inline-block;
+      background:var(--accent);
+      color:white;
+      padding:10px 14px;
+      border-radius:10px;
+      text-decoration:none;
+      font-weight:600;
+      transition: transform .12s ease, box-shadow .12s ease;
+    }
+    a.btn:hover{ transform: translateY(-3px); box-shadow: 0 10px 30px rgba(162,14,43,0.18) }
+
+    footer{
+      margin-top:18px;
+      text-align:center;
+      color:#999;
+      font-size:13px;
+    }
+
+    /* Mobile */
+    @media (max-width:880px){
+      .grid{ grid-template-columns: 1fr; }
+      .iframe-box{ height:640px; }
     }
   </style>
 </head>
 <body>
-  <h1>🎉 Joyeux 17ème anniversaire ! 🎉</h1>
-  <p>Voici un espace pour laisser des petits mots à <strong>ton copain</strong> ❤️</p>
+  <div class="container">
+    <header>
+      <div class="badge">17 • Anniversaire</div>
+      <h1>Joyeux 17ème anniversaire, mon amour 💖</h1>
+      <p class="lead">Ta famille et tes amis t'ont laissé un message! </p>
+    </header>
 
-  <div id="messages">
-    <div class="message">💌 "On t'aime !" – Maman</div>
-    <div class="message">🎂 "Bon anniversaire !" – Ton meilleur ami</div>
+    <main class="grid">
+      <!-- LEFT: Google Form (embed) + messages display (published Sheet embed) -->
+      <section class="card form-wrapper" aria-labelledby="form-heading">
+        <div class="form-title">
+          <div class="heart">❤</div>
+          <div>
+            <strong id="form-heading">Laisse lui un message! </strong>
+            <div class="muted">Écris un petit mot, une anecdote, ou un souhait.</div>
+          </div>
+        </div>
+
+        <!-- --------------- -->
+        <!-- PLACEHOLDER #1: Google Form embed -->
+        <!-- Remplace l'iframe ci-dessous par le code EXACT fourni par Google Forms (Envoyer → < >) -->
+        <!-- Exemple : <iframe src="https://docs.google.com/forms/d/e/TON_ID/viewform?embedded=true" width="640" height="1000"...> -->
+        <!-- --------------- -->
+        <div class="iframe-box" id="form-embed">
+          <!--  ==== IMPORTANT : remplacer ce bloc par ton iframe Google Form (Envoyer -> </>) ==== -->
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;padding:22px;text-align:center;">
+            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdvtjXWe_PR2TGo1p7vK5auZOUzAo-H81PVJZqoSsQ8bzsSVw/viewform?embedded=true" width="640" height="1000" frameborder="0" marginheight="0" marginwidth="0">Chargement…</iframe>
+          </div>
+        </div>
+
+        <!-- Spacer -->
+        <div style="height:6px"></div>
+
+        <div>
+          <strong>Messages reçus</strong>
+          <div class="muted">mais c'est qu'il y en a des messages dis donc</div>
+        </div>
+
+        <!-- --------------- -->
+        <!-- PLACEHOLDER #2: Google Sheets published embed -->
+        <!-- Remplace src ci-dessous par le lien pubhtml de "Publier sur le web" dans Google Sheets -->
+        <!-- Exemple : https://docs.google.com/spreadsheets/d/e/XXXXXX/pubhtml?widget=true&headers=false -->
+        <!-- --------------- -->
+        <div class="iframe-box" id="sheet-embed" style="height:420px"><!-- ==== IMPORTANT : remplacer ce bloc par l'iframe Google Sheets publié ==== -->
+          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;padding:22px;text-align:center;">
+          <iframe
+          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHRXor6OLBeikq2SSUHAVLcfeRjI9iKFF-qb4q3BK8df-5-a_S_EAJzhUVjrOTz1LynUi_JjcbynL9/pubhtml"
+                  width="100%" height="500"></iframe>
+          </div>
+        </div>
+      </section>
+    </footer>
   </div>
-
-  <textarea id="newMessage" placeholder="Écris ton message ici..."></textarea><br>
-  <button onclick="addMessage()">Envoyer</button>
-
-  <script>
-    function addMessage() {
-      let text = document.getElementById("newMessage").value;
-      if (text.trim() !== "") {
-        let newDiv = document.createElement("div");
-        newDiv.className = "message";
-        newDiv.textContent = text;
-        document.getElementById("messages").appendChild(newDiv);
-        document.getElementById("newMessage").value = "";
-      }
-    }
-    <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdvtjXWe_PR2TGo1p7vK5auZOUzAo-H81PVJZqoSsQ8bzsSVw/viewform?embedded=true" 
-      width="640" height="1000" frameborder="0" marginheight="0" marginwidth="0">Chargement…</iframe>
-  </script>
 </body>
 </html>
