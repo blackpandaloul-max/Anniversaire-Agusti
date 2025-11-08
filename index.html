@@ -3,18 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Joyeux 17ème anniversaire ❤️</title>
-
-  <!-- Styles : Thème rouge / noir, moderne et responsive -->
+  <title>Anniversaire Agustí 🎉</title>
   <style>
     :root{
       --bg:#0b0b0b;
       --card:#111;
-      --accent:#dc143c; /* rouge cerise */
-      --accent-dark:#a20e2b;
-      --muted:#f2f2f2;
-      --glass: rgba(255,255,255,0.03);
-      --max-width:980px;
+      --accent:#dc143c; /* rouge */
+      --muted:#e6e6e6;
     }
     *{box-sizing:border-box}
     body{
@@ -25,173 +20,473 @@
       -webkit-font-smoothing:antialiased;
       -moz-osx-font-smoothing:grayscale;
       line-height:1.4;
-      padding:32px 16px;
-      display:flex;
-      justify-content:center;
+      padding:20px;
+      overflow-x:hidden;
     }
-
-    .container{
-      width:100%;
-      max-width:var(--max-width);
-    }
+    .wrap{max-width:1000px;margin:0 auto}
 
     header{
       text-align:center;
-      margin-bottom:22px;
+      padding:28px 12px;
+      background: linear-gradient(180deg,var(--accent),#000);
+      border-radius:12px;
+      box-shadow: 0 8px 30px rgba(220,20,60,0.15);
+      margin-bottom:18px;
     }
-    .badge{
+    header h1{margin:0;font-size:32px}
+    header p{margin:8px 0 0;color:#ffd6dc}
+
+    /* countdown */
+    #countdown{
+      margin:18px auto 8px;
+      text-align:center;
+      font-size:18px;
+      color:#ffd6dc;
+      font-weight:600;
+    }
+    #countdown .time{
       display:inline-block;
-      background: linear-gradient(90deg,var(--accent),var(--accent-dark));
-      color:white;
-      padding:8px 14px;
-      border-radius:999px;
-      font-weight:700;
-      box-shadow: 0 6px 20px rgba(220,20,60,0.18);
-      margin-bottom:12px;
-    }
-    h1{
-      margin:6px 0 0 0;
-      font-size: clamp(20px, 4vw, 36px);
-      letter-spacing: -0.02em;
-    }
-    p.lead{
-      color:#d7d7d7;
-      margin:8px 0 20px 0;
+      background:rgba(255,255,255,0.03);
+      padding:10px 14px;
+      border-radius:10px;
+      margin:0 6px;
+      min-width:68px;
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 420px;
-      gap:24px;
-      align-items:start;
-    }
+    /* layout */
+    .grid{display:grid;grid-template-columns:1fr 360px;gap:18px;align-items:start}
+    @media(max-width:900px){.grid{grid-template-columns:1fr}}
 
-    /* Card */
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border:1px solid rgba(255,255,255,0.04);
-      border-radius:14px;
-      padding:18px;
-      box-shadow: 0 6px 20px rgba(0,0,0,0.6);
-    }/* Left: form + messages display */
-    .form-wrapper{
-      display:flex;
-      flex-direction:column;
-      gap:16px;
-    }
-
-    .form-title{
-      display:flex;
-      align-items:center;
-      gap:10px;
-    }
-    .heart{
-      width:44px;
-      height:44px;
-      background:linear-gradient(90deg,var(--accent),var(--accent-dark));
-      border-radius:10px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      font-size:20px;
-      box-shadow:0 8px 30px rgba(220,20,60,0.18);
-    }
-
-    /* iframe container responsive */
-    .iframe-box{
-      width:100%;
-      border-radius:10px;
-      overflow:hidden;
       border:1px solid rgba(255,255,255,0.03);
-      height:520px;
-      background:var(--card);
+      border-radius:12px;
+      padding:18px;
     }
 
-    /* Right column: instructions / link */
-    .sidebar{
-      display:flex;
-      flex-direction:column;
-      gap:12px;
+    /* messages */
+    #messages{max-width:780px;margin:12px auto 30px}
+    .message{
+      background:#0f0f0f;
+      border:1px solid rgba(220,20,60,0.18);border-left:4px solid var(--accent);
+      padding:12px;
+      margin-bottom:10px;
+      border-radius:10px;
+      box-shadow:0 6px 18px rgba(0,0,0,0.6);
+      font-size:16px;
     }
 
-    .muted{
-      color:#bbb;
-      font-size:14px;
+    /* hearts */
+    .heart {
+      position: fixed;
+      top: -40px;
+      font-size: 20px;
+      pointer-events:none;
+      opacity:0.95;
+      transform: translateY(0);
     }
 
-    a.btn {
+    /* big surprise overlay */
+    #overlay {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      pointer-events: none;
+    }
+    #overlay .panel{
+      background: linear-gradient(90deg, rgba(0,0,0,0.6), rgba(20,0,0,0.6));
+      border: 2px solid rgba(255,255,255,0.06);
+      padding: 30px;
+      border-radius: 16px;
+      text-align:center;
+      color: white;
+      transform: scale(0.8);
+      transition: transform .4s ease;
+      pointer-events: auto;
+    }
+    #overlay.show{ display:flex; }
+    #overlay.show .panel{ transform: scale(1); }
+
+    #overlay h2{
+      font-size:38px;
+      margin:0 0 12px 0;
+      text-shadow:0 6px 30px rgba(220,20,60,0.25);
+    }
+    #overlay p{font-size:20px;margin:0 0 12px 0;color:#ffe6ea}
+    #overlay .closeBtn{
+      margin-top:10px;
       display:inline-block;
       background:var(--accent);
       color:white;
-      padding:10px 14px;
+      padding:8px 12px;
       border-radius:10px;
+      cursor:pointer;
       text-decoration:none;
-      font-weight:600;
-      transition: transform .12s ease, box-shadow .12s ease;
-    }
-    a.btn:hover{ transform: translateY(-3px); box-shadow: 0 10px 30px rgba(162,14,43,0.18) }
-
-    footer{
-      margin-top:18px;
-      text-align:center;
-      color:#999;
-      font-size:13px;
     }
 
-    /* Mobile */
-    @media (max-width:880px){
-      .grid{ grid-template-columns: 1fr; }
-      .iframe-box{ height:640px; }
+    /* confetti canvas full screen */
+    #confetti-canvas{
+      position: fixed;
+      top:0;left:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index:9998;
     }
+
+    footer{color:#999;text-align:center;margin-top:18px;font-size:13px}
   </style>
 </head>
 <body>
-  <div class="container">
+  <div class="wrap">
     <header>
-      <div class="badge">17 • Anniversaire</div>
-      <h1>Joyeux 17ème anniversaire, mon amour 💖</h1>
-      <p class="lead">Ta famille et tes amis t'ont laissé un message! </p>
+      <h1>🎂 Joyeux 17ème Anniversaire Agustí ❤️</h1>
+      <p>Dépose ton message, une anecdote ou un simple joyeux anniversaire!</p>
     </header>
 
-    <main class="grid">
-      <!-- LEFT: Google Form (embed) + messages display (published Sheet embed) -->
-      <section class="card form-wrapper" aria-labelledby="form-heading">
-        <div class="form-title">
-          <div class="heart">❤</div>
-          <div>
-            <strong id="form-heading">Laisse lui un message! </strong>
-            <div class="muted">Écris un petit mot, une anecdote, ou un souhait.</div>
-          </div>
-        </div>
-        <div class="iframe-box" id="form-embed">
-          <!--  ==== IMPORTANT : remplacer ce bloc par ton iframe Google Form (Envoyer -> </>) ==== -->
-          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;padding:22px;text-align:center;">
-            <iframe src="https://docs.google.com/forms/d/e/1FAIpQLSdvtjXWe_PR2TGo1p7vK5auZOUzAo-H81PVJZqoSsQ8bzsSVw/viewform?embedded=true" width="640" height="1000" frameborder="0" marginheight="0" marginwidth="0">Chargement…</iframe>
-          </div>
-        </div>
+    <!-- countdown visible -->
+    <div id="countdown" aria-hidden="false">
+      <span style="margin-right:12px">Compte à rebours jusqu’au grand moment :</span>
+      <span class="time" id="days">--j</span>
+      <span class="time" id="hours">--h</span>
+      <span class="time" id="minutes">--m</span>
+      <span class="time" id="seconds">--s</span>
+    </div>
 
-        <!-- Spacer -->
-        <div style="height:6px"></div>
+    <div class="grid">
+      <!-- left -->
+      <section class="card">
+        <h2>📬 Laisse un message</h2>
 
-        <div>
-          <strong>Messages reçus</strong>
-          <div class="muted">mais c'est qu'il y en a des messages dis donc</div>
-        </div>
-
-        <!-- --------------- -->
-        <!-- PLACEHOLDER #2: Google Sheets published embed -->
-        <!-- Remplace src ci-dessous par le lien pubhtml de "Publier sur le web" dans Google Sheets -->
-        <!-- Exemple : https://docs.google.com/spreadsheets/d/e/XXXXXX/pubhtml?widget=true&headers=false -->
-        <!-- --------------- -->
-        <div class="iframe-box" id="sheet-embed" style="height:420px"><!-- ==== IMPORTANT : remplacer ce bloc par l'iframe Google Sheets publié ==== -->
-          <div style="display:flex;align-items:center;justify-content:center;height:100%;color:#999;padding:22px;text-align:center;">
+        <!-- Google Form embed (TU AS DÉJÀ COLLÉ LE BON IFRAME) -->
+        <div style="margin-top:12px">
           <iframe
-          src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSHRXor6OLBeikq2SSUHAVLcfeRjI9iKFF-qb4q3BK8df-5-a_S_EAJzhUVjrOTz1LynUi_JjcbynL9/pubhtml"
-                  width="100%" height="500"></iframe>
-          </div>
+            src="https://docs.google.com/forms/d/e/1FAIpQLSdvtjXWe_PR2TGo1p7vK5auZOUzAo-H81PVJZqoSsQ8bzsSVw/viewform?embedded=true"
+            width="100%" height="900" frameborder="0" marginheight="0" marginwidth="0">
+            Chargement…
+          </iframe>
         </div>
+
+        <hr style="border:none;height:18px">
+
+        <h2>💌 Messages reçus</h2>
+        <div id="messages">Chargement des messages…</div>
       </section>
-    </footer>
+
+      <!-- right -->
+      <aside class="card">
+        <strong>Infos</strong>
+        <p style="margin-top:12px;color:#ffd6dc"><strong>Animation spéciale :</strong><br>16 novembre à 00:20 (Europe/Paris)</p>
+      </aside>
+      </div>
+
+    <footer>© made by koko • 🍓❤️</footer>
   </div>
+
+  <!-- confetti canvas -->
+  <canvas id="confetti-canvas"></canvas>
+
+  <!-- overlay surprise -->
+  <div id="overlay">
+    <div class="panel">
+      <h2 id="overlay-title">Joyeux anniversaire Agustí !</h2>
+      <p id="overlay-msg">Joyeux anniversaire mon cœur, je suis officiellement plus une cougar!! 🍓❤️</p>
+      <a class="closeBtn" id="closeOverlay">Fermer</a>
+    </div>
+  </div>
+
+  <!-- hearts generator (continuous) -->
+  <script>
+    function spawnHeart() {
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.innerText = '❤';
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.fontSize = (12 + Math.random() * 28) + 'px';
+      el.style.opacity = (0.6 + Math.random() * 0.4);
+      el.style.transition = 'transform linear';
+      document.body.appendChild(el);
+      const duration = 5000 + Math.random() * 6000;
+      el.animate([
+        { transform: 'translateY(0) rotate(0deg)', opacity: el.style.opacity },
+        { transform: 'translateY(120vh) rotate(360deg)', opacity: 0.1 }
+      ], { duration: duration, iterations: 1, easing: 'linear' });
+      setTimeout(()=> el.remove(), duration + 200);
+    }
+    setInterval(spawnHeart, 600);
+  </script>
+
+  <!-- YouTube IFrame API (allows setVolume) -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+
+  <!-- hidden player container -->
+  <div id="yt-player" style="display:none"></div>
+
+  <script>
+    // ---------- YouTube setup ----------
+    // video id (from your link)
+    const YT_ID = "C4_REFc14ko";
+    let ytPlayer;
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('yt-player', {
+        height: '0', width: '0',
+        videoId: YT_ID,
+        playerVars: {
+          autoplay: 1,
+          loop: 1,
+          playlist: YT_ID,
+          controls: 0,
+          modestbranding: 1,
+          rel: 0,
+          mute: 0
+        },
+        events: {
+          onReady: function(e){
+            // try to autoplay (may be blocked)
+            try { e.target.playVideo(); e.target.setVolume(25); } catch(err){}
+          }
+        }
+      });
+    }
+
+    // ---------- Load messages from published Google Sheet (CSV) ----------
+    async function loadMessages(){
+      try {
+        const sheetCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSHRXor6OLBeikq2SSUHAVLcfeRjl9iKFF-qb4q3BK8df-5-a_S_EAJzhUVjrOTz1LynUi_JjcbynL9/pub?output=csv";
+        const res = await fetch(sheetCSV);
+        if(!res.ok) throw new Error('Erreur téléchargement');
+        const txt = await res.text();
+        // parse CSV safely (basic)
+        const lines = txt.trim().split('\n');
+        if(lines.length <= 1){ document.getElementById('messages').innerText = "Aucun message pour le moment 🥺"; return; }
+        const headers = lines[0].split(',');
+        const rows = lines.slice(1);
+        let html = '';
+        // display newest first
+        rows.reverse().forEach(r=>{
+          if(!r) return;
+          // handle commas inside cells by splitting respecting quotes - simple CSV parse:
+          const cols = parseCSVRow(r);
+          // assume message is one of the columns - attempt to find the longest column (likely the message)
+          let message = cols[1] || cols[0] || '';
+          // if header contains 'Message' or 'message', try to use that index
+          const msgIndex =
+            headers.findIndex(h => /message|Message|MESSAGE|réponse|Réponse/.test(h));
+          if(msgIndex >= 0 && cols[msgIndex]) message = cols[msgIndex];
+          // optional name column detection
+          let name = '';
+          const nameIndex = headers.findIndex(h => /pr[eé]nom|nom|Name|name/.test(h));
+          if(nameIndex >= 0 && cols[nameIndex]) name = cols[nameIndex];
+          message = sanitizeHTML(message);
+          name = sanitizeHTML(name);
+          if(message.trim() === '') return;
+          html += `<div class="message">${message}${name? `<div style="margin-top:8px;color:#ffccd3;font-size:13px">— ${name}</div>`:''}</div>`;
+        });
+        document.getElementById('messages').innerHTML = html || "Aucun message pour le moment 🥺";
+      } catch(err){
+        document.getElementById('messages').innerText = "Impossible de charger les messages pour le moment.";
+        console.error(err);
+      }
+    }
+    // very small CSV row parser (handles quoted fields)
+    function parseCSVRow(row){
+      const res=[]; let cur=''; let inQuotes=false;
+      for(let i=0;i<row.length;i++){
+        const ch=row[i];
+        if(ch==='\"'){ if(inQuotes && row[i+1]==='\"'){ cur+='"'; i++; } else inQuotes=!inQuotes; continue; }
+        if(ch===',' && !inQuotes){ res.push(cur); cur=''; continue; }
+        cur+=ch;
+      }
+      res.push(cur);
+      return res;
+    }
+    function sanitizeHTML(s){
+      return s.replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\n/g,'<br>');
+    }
+    loadMessages();
+    setInterval(loadMessages,10000);
+
+    // ---------- Countdown & Trigger ----------
+    // target: 16 Nov 2025 00:20 Europe/Paris (UTC+1 in Nov)
+    const targetISO = '2025-11-16T00:20:00+01:00';
+    const targetTime = new Date(targetISO).getTime();
+    function updateCountdown(){
+      const now = Date.now();
+      let diff = targetTime - now;
+      if(diff <= 0){
+        document.getElementById('days').innerText = '00j';
+        document.getElementById('hours').innerText = '00h';
+        document.getElementById('minutes').innerText = '00m';
+        document.getElementById('seconds').innerText = '00s';
+        // trigger once
+        if(!window.__surprise_done){
+          window.__surprise_done = true;
+          triggerSurprise();
+        }
+        return;
+      }
+      const d = Math.floor(diff / (1000*60*60*24));
+      diff -= d*(1000*60*60*24);
+      const h = Math.floor(diff/(1000*60*60)); diff -= h*(1000*60*60);
+      const m = Math.floor(diff/(1000*60)); diff -= m*(1000*60);
+      const s = Math.floor(diff/1000);
+      document.getElementById('days').innerText = String(d).padStart(2,'0')+'j';
+      document.getElementById('hours').innerText = String(h).padStart(2,'0')+'h';
+      document.getElementById('minutes').innerText = String(m).padStart(2,'0')+'m';
+      document.getElementById('seconds').innerText = String(s).padStart(2,'0')+'s';
+    }
+    updateCountdown();
+    setInterval(updateCountdown,1000);
+
+    // ---------- Surprise animation ----------
+    const overlay = document.getElementById('overlay');
+    const overlayMsg = document.getElementById('overlay-msg');
+    function triggerSurprise(){
+      // show overlay
+      overlayMsg.innerText = "Joyeux anniversaire mon cœur, je suis officiellement plus une cougar!! 🍓❤️";
+      overlay.classList.add('show');
+
+      // boost hearts density
+      const heartInterval = setInterval(()=>{
+        for(let i=0;i<6;i++) spawnExtraHeart();
+      }, 200);
+
+      // start confetti burst
+      startConfettiBurst(2000);
+
+      // full screen flash
+      flashScreen();
+
+      // boost music if possible
+      try {
+        if(ytPlayer && ytPlayer.setVolume){
+          let vol = 100;
+          ytPlayer.setVolume(vol);
+          // after 6s, fade back to 30
+          setTimeout(()=>fadeVolume(100, 30, 3000), 6000);
+        }
+      } catch(e){ console.warn('yt control', e); }
+
+      // enlarge overlay panel and auto-hide after 18s
+      setTimeout(()=> {
+        overlay.classList.remove('show');
+        clearInterval(heartInterval);
+      }, 18000);
+    }
+
+    document.getElementById('closeOverlay').addEventListener('click', ()=>{
+      overlay.classList.remove('show');
+    });
+
+    // helper to spawn many hearts quickly
+    function spawnExtraHeart(){
+      const el = document.createElement('div');
+      el.className = 'heart';
+      el.innerText = '❤';
+      el.style.left = Math.random()*100 + 'vw';
+      el.style.fontSize = (18 + Math.random()*34) + 'px';
+      el.style.opacity = 0.9;
+      document.body.appendChild(el);
+      const duration = 4000 + Math.random()*4000;
+      el.animate([
+        { transform: 'translateY(0) rotate(0deg)', opacity: el.style.opacity },
+        { transform: 'translateY(120vh) rotate(360deg)', opacity: 0.1 }
+      ], { duration: duration, iterations: 1, easing: 'cubic-bezier(.2,.8,.2,1)' });
+      setTimeout(()=> el.remove(), duration+200);
+    }
+
+    // fade volume helper
+    function fadeVolume(from, to, ms){
+      const steps = 30;
+      const stepTime = ms/steps;
+      let cur = from;
+      const delta = (to-from)/steps;
+      const t = setInterval(()=>{
+        cur += delta;
+        if(ytPlayer && ytPlayer.setVolume) {
+          try { ytPlayer.setVolume(Math.max(0, Math.min(100, Math.round(cur)))); } catch(e){}
+        }
+      }, stepTime);
+      setTimeout(()=>clearInterval(t), ms+50);
+    }
+
+    // ---------- Confetti (red & black) ----------
+    const confettiCanvas = document.getElementById('confetti-canvas');
+    const confettiCtx = confettiCanvas.getContext('2d');
+    let confettiPieces = [];
+
+    function resizeCanvas(){
+      confettiCanvas.width = window.innerWidth;
+      confettiCanvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    function random(min,max){ return Math.random()*(max-min)+min; }
+
+    function spawnConfetti(count){
+      for(let i=0;i<count;i++){
+        confettiPieces.push({
+          x: random(0, confettiCanvas.width),
+          y: random(-confettiCanvas.height, 0),
+          w: random(6,12),
+          h: random(6,14),
+          r: random(0,360),
+          speed: random(2,6),
+          rotSpeed: random(-8,8),
+          color: Math.random()>0.5 ? '#dc143c' : '#000'
+        });
+      }
+    }
+
+    function drawConfetti(){
+      confettiCtx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
+      confettiPieces.forEach((p,i)=>{
+        p.y += p.speed;
+        p.r += p.rotSpeed;
+        confettiCtx.save();
+        confettiCtx.translate(p.x, p.y);
+        confettiCtx.rotate(p.r * Math.PI/180);
+        confettiCtx.fillStyle = p.color;
+        confettiCtx.fillRect(-p.w/2, -p.h/2, p.w, p.h);
+        confettiCtx.restore();
+        if(p.y > confettiCanvas.height + 20) confettiPieces.splice(i,1);
+      });
+      requestAnimationFrame(drawConfetti);
+    }
+    drawConfetti();
+
+    // burst helper
+    function startConfettiBurst(ms){
+      spawnConfetti(250);
+      // a few waves
+      const waves = 4;
+      for(let i=1;i<=waves;i++){
+        setTimeout(()=> spawnConfetti(120), i*400);
+      }
+    }
+
+    // a small flash effect
+    function flashScreen(){
+      const flash = document.createElement('div');
+      flash.style.position='fixed';
+      flash.style.inset='0';
+      flash.style.background='#fff';
+      flash.style.opacity='0.0';
+      flash.style.zIndex='9997';
+      flash.style.pointerEvents='none';
+      document.body.appendChild(flash);
+      let t=0;
+      const interval = setInterval(()=>{
+        t++;
+        flash.style.opacity = (t<3? 0.35: (t<6? 0.15: 0));
+        if(t>6){ clearInterval(interval); flash.remove(); }
+      },90);
+    }
+
+  </script>
 </body>
 </html>
