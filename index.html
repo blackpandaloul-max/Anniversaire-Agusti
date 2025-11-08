@@ -65,16 +65,48 @@
     }
 
     /* messages */
-    #messages{max-width:780px;margin:12px auto 30px}
-    .message{
-      background:#0f0f0f;
-      border:1px solid rgba(220,20,60,0.18);border-left:4px solid var(--accent);
-      padding:12px;
-      margin-bottom:10px;
-      border-radius:10px;
-      box-shadow:0 6px 18px rgba(0,0,0,0.6);
-      font-size:16px;
+    <h2>💌 Messages reçus :</h2>
+<div id="messages">Chargement des messages...</div>
+
+<script>
+async function loadMessages() {
+    const sheetURL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSHRXor6OLBeikq2SSUHAVLcfeRjI9iKFF-qb4q3BK8df-5-a_S_EAJzhUVjrOTz1LynUi_JjcbynL9/pub?output=csv";
+    try {
+        const res = await fetch(sheetURL);
+        const data = await res.text();
+        const rows = data.split("\n").slice(1); // ignore header
+        let html = "";
+        rows.reverse().forEach(row => {
+            const parts = row.split(",");
+            const message = parts[1]; // Colonne 2 = message
+            if(message && message.trim() !== "") {
+                html += `<div class="message">${message}</div>`;
+            }
+        });
+        document.getElementById("messages").innerHTML = html || "Aucun message pour le moment 🥺";
+    } catch (err) {
+        document.getElementById("messages").innerText = "Impossible de charger les messages pour le moment.";
+        console.error(err);
     }
+}
+loadMessages();
+setInterval(loadMessages, 10000); // recharge toutes les 10 secondes
+</script>
+    <style>
+    .message {
+    background: #1c1c1c;
+    border: 2px solid #dc143c;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    padding: 15px;
+    font-size: 18px;
+    box-shadow: 0 0 10px #ff2a2a40;
+    animation: fadeIn 0.5s ease-in-out;
+}
+@keyframes fadeIn {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
 
     /* hearts */
     .heart {
